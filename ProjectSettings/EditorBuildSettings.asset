@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RoomSceneCopy.unity
     guid: e151c73642a49dc4688d134beeea3f03
+  - enabled: 1
+    path: Assets/Scenes/Basement.unity
+    guid: 29786175e18844b4aa20fcda6c4ceef7
+  - enabled: 1
+    path: Assets/Scenes/Washroom.unity
+    guid: cf4031c7950e4ce489259b320b271bca
   m_configObjects: {}

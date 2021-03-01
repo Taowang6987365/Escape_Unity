@@ -11,6 +11,9 @@ TagManager:
   - Slider
   - canvas
   - startPos
+  - BasementPos
+  - UpstairsPos
+  - WashroomPos
   layers:
   - Default
   - TransparentFX

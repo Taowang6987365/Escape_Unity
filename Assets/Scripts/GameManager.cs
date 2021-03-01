@@ -25,6 +25,11 @@ public class GameManager : MonoBehaviour
 
     //Only one GameObject exsist in the game
     private static GameManager instance;
+    private bool back_from_upstairs;
+    private bool back_from_basement;
+    private bool back_from_washroom;
+    private bool is_in_hall;
+    private float timer = 0.5f;
    
     public static GameManager Instance
     {
@@ -51,6 +56,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        posReset();
         if (isLevelLoaded)
         {
             setUp();
@@ -120,19 +126,26 @@ public class GameManager : MonoBehaviour
                 break;
 
             case "hall":
+                is_in_hall = true;
                 Display_Load(1);
                 break;
 
             case "upstairs":
+                back_from_upstairs = true;
+                is_in_hall = false;
                 Display_Load(2);
                 break;
 
             case "washroom":
-                Display_Load(3);
+                back_from_washroom = true;
+                is_in_hall = false;
+                Display_Load(4);
                 break;
 
             case "basement":
-                Display_Load(4);
+                back_from_basement = true;
+                is_in_hall = false;
+                Display_Load(3);
                 break;
 
             default:
@@ -152,7 +165,26 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void setUp()
     {
-        startPos = GameObject.FindGameObjectWithTag("startPos").transform;
+        if(startPos == null)
+        {
+            if (back_from_basement && is_in_hall)
+            {
+                startPos = GameObject.FindGameObjectWithTag("BasementPos").transform;
+            }
+            else if (back_from_upstairs && is_in_hall)
+            {
+                startPos = GameObject.FindGameObjectWithTag("UpstairsPos").transform;
+            }
+            else if (back_from_washroom && is_in_hall)
+            {
+                startPos = GameObject.FindGameObjectWithTag("WashroomPos").transform;
+            }
+            else
+            {
+                startPos = GameObject.FindGameObjectWithTag("startPos").transform;
+            }
+        }
+    
         pr = GameObject.Find("Main Camera").GetComponent<PlayerRay>();
         //Find all the doors in the scene
         doors = GameObject.FindGameObjectsWithTag("Door");
@@ -168,5 +200,26 @@ public class GameManager : MonoBehaviour
         //set player start position
         Player.transform.position = startPos.position;
         Player.transform.rotation = startPos.rotation;
+    }
+
+    /// <summary>
+    /// Reset boolean value of entering different doors when the player go back to the hall
+    /// </summary>
+    private void posReset()
+    {
+        if (back_from_basement || back_from_upstairs || back_from_washroom)
+        {
+            if (is_in_hall)
+            {
+                timer -= Time.deltaTime;
+                if (timer < 0)
+                {
+                    back_from_basement = false;
+                    back_from_upstairs = false;
+                    back_from_washroom = false;
+                    timer = 0.5f;
+                }
+            }
+        }
     }
 }
