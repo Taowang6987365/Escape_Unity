@@ -74,7 +74,10 @@ public class GameManager : MonoBehaviour
         {
             if (pr.distance <= minRange && pr.hit.collider.gameObject.CompareTag("Door"))
             {
-                interactPannel.SetActive(true);
+                if(interactPannel != null)
+                { 
+                    interactPannel.SetActive(true);
+                }
                 canOpen = true;
             }
             else
@@ -133,7 +136,7 @@ public class GameManager : MonoBehaviour
             case "upstairs":
                 back_from_upstairs = true;
                 is_in_hall = false;
-                Display_Load(2);
+                Display_Load(5);
                 break;
 
             case "washroom":
