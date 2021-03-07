@@ -12,9 +12,10 @@ public class Monster_DeadWoman_Behaviour : MonoBehaviour
     [SerializeField] private float distance;
     [SerializeField] private float ScreamTime = 3.5f;
     [SerializeField] private Transform startPos;
+    [SerializeField] private float turnRate;
     private float attackRange;
     private float detectRange;
-    
+
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class Monster_DeadWoman_Behaviour : MonoBehaviour
     {
         DeadWoman_Behaviour();
     }
+
 
     private void DeadWoman_Behaviour()
     {
@@ -99,21 +101,21 @@ public class Monster_DeadWoman_Behaviour : MonoBehaviour
     {
         agent.isStopped = false;
         AgentToDes(startPos.position);
-        if(anim.GetBool("isSitting"))
+        if (anim.GetBool("isSitting"))
         {
             anim.SetBool("isWalking", false);
         }
         else
         {
-             anim.SetBool("isWalking", true);
+            anim.SetBool("isWalking", true);
+            transform.LookAt(startPos);
         }
-        if(Vector3.Distance(this.transform.position,startPos.position) <= 1f)
+        if (Vector3.Distance(this.transform.position, startPos.position) <= 1f)
         {
             anim.SetBool("isWaling", false);
             anim.SetBool("isSitting", true);
             agent.speed = 0.5f;
             agent.isStopped = true;
-            transform.LookAt(startPos);
         }
     }
 }
